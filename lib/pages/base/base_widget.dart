@@ -17,6 +17,7 @@ class _MorazanAppState extends State<MorazanApp> {
   static const _satelites = Satelites.values;
   var _actualSatelite = _satelites[0];
   var _themeMode = ThemeMode.system;
+  DateTime? _lastUpdate;
 
   @override
   Widget build(BuildContext context) {
@@ -30,27 +31,36 @@ class _MorazanAppState extends State<MorazanApp> {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: _themeMode,
+      routes: {
+        '/AboutPage': (context) => AboutPage(),
+      },
       home: Scaffold(
         appBar: AppBar(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Detalles de ${_actualSatelite.name.capitalize()}"),
-              TextButton(
-            
-                onPressed: (){
-                  Navigator.pushNamed(context, "/AboutPage");
-                },child: Icon(themeIcon, size: 20, color: colorScheme.onPrimary),),
-              TextButton(
-                onPressed: () => setState(() {
-                  _themeMode = Theme.of(context).brightness == Brightness.light
-                      ? ThemeMode.dark
-                      : ThemeMode.light;
-                }),
-                child: Icon(themeIcon, size: 20, color: colorScheme.onPrimary),
-              ),
-            ],
-          ),
+          title: Builder(builder: (context) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Detalles de ${_actualSatelite.name.capitalize()}"),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/AboutPage");
+                  },
+                  child:
+                      Icon(themeIcon, size: 20, color: colorScheme.onPrimary),
+                ),
+                TextButton(
+                  onPressed: () => setState(() {
+                    _themeMode =
+                        Theme.of(context).brightness == Brightness.light
+                            ? ThemeMode.dark
+                            : ThemeMode.light;
+                  }),
+                  child:
+                      Icon(themeIcon, size: 20, color: colorScheme.onPrimary),
+                ),
+              ],
+            );
+          }),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -72,9 +82,11 @@ class _MorazanAppState extends State<MorazanApp> {
                       .toList(),
                 ),
               ),
-               Text("Ultima Actualizacinon ${_actualSatelite.name.capitalize()}"),
-              SatelitesPage(satelite: _actualSatelite),
-             
+              Text("Ultima Actualizacion ${_lastUpdate ?? '...'}"),
+              SatelitesPage(
+                satelite: _actualSatelite,
+                setLastUpdate: (lu) => _lastUpdate = lu,
+              ),
             ],
           ),
         ),

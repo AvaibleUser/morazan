@@ -10,9 +10,14 @@ import 'package:morazan/util/constants.dart';
 
 class SatelitesPage extends StatefulWidget {
   final Satelites _satelite;
+  final void Function(DateTime) _setLastUpdate;
 
-  const SatelitesPage({super.key, required Satelites satelite})
-      : _satelite = satelite;
+  const SatelitesPage(
+      {super.key,
+      required Satelites satelite,
+      required void Function(DateTime) setLastUpdate})
+      : _satelite = satelite,
+        _setLastUpdate = setLastUpdate;
 
   @override
   State<SatelitesPage> createState() => _SatelitesPageState();
@@ -33,18 +38,17 @@ class _SatelitesPageState extends State<SatelitesPage> {
     _futureSateliteInfo = fetchSateliteInfo(widget._satelite);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _futureSateliteInfo,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return const CircularProgressIndicator();
+          return const Expanded(child: CircularProgressIndicator());
         }
 
         var SateliteInfo(
+          :dateTime,
           :floorHumidity,
           :radiation,
           :temperature,
@@ -52,6 +56,8 @@ class _SatelitesPageState extends State<SatelitesPage> {
           :windDirection,
           :rainPrecipitation
         ) = snapshot.data!;
+
+        widget._setLastUpdate(dateTime);
 
         return Expanded(
           child: GridView.extent(
