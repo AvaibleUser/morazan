@@ -4,14 +4,14 @@ import 'package:morazan/util/app_theme.dart';
 import 'package:morazan/pages/satelites/satelites_widget.dart';
 import 'package:morazan/util/constants.dart';
 import 'package:morazan/util/language.dart';
-
 import 'package:string_capitalize/string_capitalize.dart';
+import 'package:morazan/pages/base/about_widget.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:morazan/locale_bloc/locale_bloc.dart';
 
-
 class BaseWidget extends StatefulWidget {
-  const BaseWidget({Key? key}) : super(key: key);
+  const BaseWidget({super.key});
 
   @override
   State<BaseWidget> createState() => _BaseWidgetState();
@@ -21,18 +21,22 @@ class _BaseWidgetState extends State<BaseWidget> {
   static const _satelites = Satelites.values;
   var _actualSatelite = _satelites[0];
   var _themeMode = ThemeMode.system;
+  DateTime? _lastUpdate;
 
   @override
   Widget build(BuildContext context) {
-  final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
 //  String welcomeMessage = l10n.temperatura;
     var colorScheme = Theme.of(context).colorScheme;
-    var themeIcon = Theme.of(context).brightness == Brightness.light
-        ? Icons.dark_mode
-        : Icons.light_mode;
+    var themeIcon =
+        _themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode;
 
     return MaterialApp(
-      locale: context.watch<LocaleBloc>().state.selectedLanguage.localeValue, // idioma predeterminado a inglés
+      locale: context
+          .watch<LocaleBloc>()
+          .state
+          .selectedLanguage
+          .localeValue, // idioma predeterminado a inglés
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       //Fin de local language
@@ -40,31 +44,47 @@ class _BaseWidgetState extends State<BaseWidget> {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: _themeMode,
+      routes: {
+        '/AboutPage': (context) => AboutPage(),
+      },
       home: Scaffold(
         appBar: AppBar(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(" ${l10n.testMedium} ${_actualSatelite.name.capitalize()}"),
-             BlocBuilder<LocaleBloc, LocaleState>(
-              builder: (context, state) {
-                return _buildLanguageSwitch(
-                  context,
-                  Theme.of(context),
-                  state,
-                );
-              },
-            ),
-              TextButton(
-                onPressed: () => setState(() {                                    
-                  _themeMode = Theme.of(context).brightness == Brightness.light
-                      ? ThemeMode.dark
-                      : ThemeMode.light;
-                }),
-                child: Icon(themeIcon, size: 20, color: colorScheme.onPrimary),
-              ),            
-            ],
-          ),
+          title: Builder(builder: (context) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                    " ${l10n.testMedium} ${_actualSatelite.name.capitalize()}"),
+                BlocBuilder<LocaleBloc, LocaleState>(
+                  builder: (context, state) {
+                    return _buildLanguageSwitch(
+                      context,
+                      Theme.of(context),
+                      state,
+                    );
+                  },
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/AboutPage");
+                  },
+                  child:
+                      Icon(Icons.info, size: 20, color: colorScheme.onPrimary),
+                ),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      _themeMode = _themeMode == ThemeMode.light
+                          ? ThemeMode.dark
+                          : ThemeMode.light;
+                    });
+                  },
+                  child:
+                      Icon(themeIcon, size: 20, color: colorScheme.onPrimary),
+                ),
+              ],
+            );
+          }),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -86,7 +106,11 @@ class _BaseWidgetState extends State<BaseWidget> {
                       .toList(),
                 ),
               ),
-             SatelitesPage(satelite: _actualSatelite), // Use UniqueKey to force rebuild
+              Text("Ultima Actualizacion ${_lastUpdate ?? '...'}"),
+              SatelitesPage(
+                satelite: _actualSatelite,
+                setLastUpdate: (lu) => _lastUpdate = lu,
+              ),
             ],
           ),
         ),
@@ -94,7 +118,7 @@ class _BaseWidgetState extends State<BaseWidget> {
     );
   }
 
- Widget _buildLanguageSwitch(
+  Widget _buildLanguageSwitch(
     BuildContext context,
     ThemeData theme,
     LocaleState state,

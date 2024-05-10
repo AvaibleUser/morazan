@@ -15,7 +15,18 @@ class Temperature extends StatelessWidget {
       title: l10n.temperatura,
       data: _temperature.round(),
       unit: "°C",
-      icon: Icon(Icons.thermostat, size: 60, color: Colors.red.shade400),
+      icon: Icon(Icons.thermostat, size: 60, color: getColorIcon(_temperature)),
     );
   }
+
+  //funcion para elegir el color
+  Color getColorIcon(num temperature){
+    if (temperature>=15) {
+      return Colors.red.shade400;
+    } else {
+      return  Colors.lightBlue.shade300;
+    }
+  }
+
+
 }

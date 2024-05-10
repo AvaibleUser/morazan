@@ -25,7 +25,7 @@ class SateliteInfoPiece<T> extends StatelessWidget {
     ColorScheme scheme = Theme.of(context).colorScheme;
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 4),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
       margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: scheme.primary,
@@ -81,25 +81,33 @@ class SateliteInfoPiece<T> extends StatelessWidget {
   }
 
   Widget _formatData(dynamic data, ColorScheme scheme) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          "${data is double && data is! int ? data.toStringAsFixed(2) : data}",
-          style: TextStyle(
-            color: scheme.onPrimary,
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              "${data is double && data is! int ? data.toStringAsFixed(2) : data}",
+              style: TextStyle(
+                color: scheme.onPrimary,
+                fontWeight: FontWeight.bold,
+                fontSize: constraints.maxWidth * 0.25,
+              ),
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 4, bottom: 6, top: 20),
-          child: Text(
-            _unit,
-            style: TextStyle(color: scheme.onPrimary, fontSize: 20),
-          ),
-        ),
-      ],
+          const SizedBox(width: 0),
+            Padding(
+              padding: const EdgeInsets.only(left: 1, bottom: 6, top: 20),
+              child: Text(
+                _unit,
+                style: TextStyle(color: scheme.onPrimary, fontSize: constraints.maxWidth * 0.1),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
