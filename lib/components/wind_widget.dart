@@ -15,21 +15,19 @@ class Wind extends StatelessWidget {
   Widget build(BuildContext context) {
     String direction = switch (_direction) {
       <= 22.5 || > 337.5 => "norte",
-      <= 67.5 => "noroeste",
-      <= 112.5 => "oeste",
-      <= 157.5 => "suroeste",
+      <= 67.5 => "noreste",
+      <= 112.5 => "este",
+      <= 157.5 => "sureste",
       <= 202.5 => "sur",
-      <= 247.5 => "sureste",
-      <= 292.5 => "este",
-      _ => "noreste",
+      <= 247.5 => "suroeste",
+      <= 292.5 => "oeste",
+      _ => "noroeste",
     };
 
     return SateliteInfoPiece(
-      title: 'Velocidad del viento',
+      title: 'Velocidad del viento ($direction)',
       data: _velocity,
-      unit: "Km/s al $direction",
-      borderColor: Colors.green.shade100,
-      textColor: Colors.green.shade400,
+      unit: "Km/s",
       icon: SizedBox(
         width: 60,
         height: 60,
@@ -45,9 +43,13 @@ class Wind extends StatelessWidget {
               ),
             ),
             Transform.rotate(
-              angle: (-_direction) * math.pi / 180,
-              child: Icon(Symbols.assistant_navigation,
-                  size: 46, color: Colors.green.shade400),
+              angle: _direction * math.pi / 180,
+              child: Icon(
+                Symbols.assistant_navigation,
+                size: 45,
+                color: Colors.green.shade400,
+                fill: 1,
+              ),
             ),
           ],
         ),

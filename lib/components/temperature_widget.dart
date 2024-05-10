@@ -14,8 +14,6 @@ class Temperature extends StatelessWidget {
       data: _temperature.round(),
       unit: "°C",
       icon: Icon(Icons.thermostat, size: 60, color: Colors.red.shade400),
-      borderColor: Colors.red.shade100,
-      textColor: Colors.red.shade400,
     );
   }
 }

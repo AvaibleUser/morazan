@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:morazan/components/satelite_info_piece.dart';
 
 class FloorHumidity extends StatelessWidget {
@@ -14,10 +13,7 @@ class FloorHumidity extends StatelessWidget {
       title: 'Humedad del suelo',
       data: _humidity,
       unit: "%",
-      icon: Icon(Symbols.humidity_percentage,
-          size: 60, color: Colors.blueAccent.shade700),
-      borderColor: Colors.blue.shade100,
-      textColor: Colors.blueAccent.shade700,
+      icon: Icon(Icons.water_drop, size: 60, color: Colors.blueAccent.shade700),
     );
   }
 }

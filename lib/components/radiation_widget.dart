@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:morazan/components/satelite_info_piece.dart';
 
 class SolarRadiation extends StatelessWidget {
@@ -14,8 +13,7 @@ class SolarRadiation extends StatelessWidget {
       title: 'Radiacion solar',
       data: _radiation,
       unit: "nm",
-      icon: Icon(Symbols.sunny, size: 60, color: Colors.orange.shade400),
-      borderColor: Colors.yellow.shade100,
+      icon: Icon(Icons.sunny, size: 60, color: Colors.orange.shade400),
       textColor: Colors.orange.shade400,
     );
   }

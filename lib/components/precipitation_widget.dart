@@ -14,9 +14,12 @@ class Precipitation extends StatelessWidget {
       title: 'Precipitacion',
       data: _precipitation,
       unit: "cm³",
-      icon: Icon(Symbols.weather_mix, size: 60, color: Colors.indigo.shade400),
-      borderColor: Colors.indigo.shade100,
-      textColor: Colors.indigo.shade400,
+      icon: Icon(
+        Symbols.weather_mix,
+        size: 60,
+        color: Colors.indigo.shade400,
+        fill: 1,
+      ),
     );
   }
 }
