@@ -116,6 +116,7 @@ class _BaseWidgetState extends State<BaseWidget> {
           currentIndex: _actualPage,
           onTap: (index) => setState(() => _actualPage = index),
           selectedItemColor: colorScheme.onPrimary,
+          unselectedItemColor: colorScheme.tertiary,
           showUnselectedLabels: false,
           items: const [
             BottomNavigationBarItem(

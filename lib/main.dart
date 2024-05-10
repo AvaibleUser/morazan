@@ -11,7 +11,6 @@ class MorazanApp extends StatelessWidget {
   const MorazanApp({super.key});
 
   @override
-  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
