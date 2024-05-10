@@ -46,7 +46,7 @@ class _MorazanAppState extends State<MorazanApp> {
                     Navigator.pushNamed(context, "/AboutPage");
                   },
                   child:
-                      Icon(themeIcon, size: 20, color: colorScheme.onPrimary),
+                      Icon(Icons.info, size: 20, color: colorScheme.onPrimary),
                 ),
                 TextButton(
                   onPressed: () => setState(() {
