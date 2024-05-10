@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:morazan/api_requests/api_calls.dart';
 import 'package:morazan/pages/satelites/satelites_model.dart';
 import 'package:morazan/util/constants.dart';
@@ -7,14 +9,9 @@ import 'package:string_capitalize/string_capitalize.dart';
 
 class ChartsPage extends StatefulWidget {
   final Satelites _satelite;
-  final Metrics _metric;
 
-  const ChartsPage({
-    super.key,
-    required Satelites satelite,
-    required Metrics metric,
-  })  : _satelite = satelite,
-        _metric = metric;
+  const ChartsPage({super.key, required Satelites satelite})
+      : _satelite = satelite;
 
   @override
   State<ChartsPage> createState() => _ChartsPageState();
@@ -24,10 +21,11 @@ class _ChartsPageState extends State<ChartsPage> {
   static final dayFormat = DateFormat("dd-MM-yyyy");
   ChartRanges _range = ChartRanges.days;
   DateTime _actualDate = DateTime.now();
+  Metrics _actualMetric = Metrics.floorHumidity;
   late Future<List<SateliteInfo>> _futureSateliteHistory;
 
   void updateSateliteInfo() {
-    _futureSateliteHistory = fetchSateliteHistory(widget._satelite, _range);
+    // _futureSateliteHistory = fetchSateliteHistory(widget._satelite, _range);
   }
 
   @override
@@ -59,45 +57,90 @@ class _ChartsPageState extends State<ChartsPage> {
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
 
-    return Scaffold(
-      appBar: AppBar(title: Text(widget._metric.name.capitalize())),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            switch (_range) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: switch (_range) {
               ChartRanges.days => ElevatedButton(
                   onPressed: () => _selectDate(context),
-                  child: Text(dayFormat.format(_actualDate)),
+                  child: Text(
+                    dayFormat.format(_actualDate),
+                    style: TextStyle(color: colorScheme.onPrimary),
+                  ),
                 ),
               ChartRanges.weeks => const Text('Last week'),
             },
-            Row(
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Row(
               children: [
-                ElevatedButton(
-                  onPressed: () => _range = ChartRanges.days,
-                  child: const Text("Dia", textAlign: TextAlign.center),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => setState(() => _range = ChartRanges.days),
+                    child: Text(
+                      "Dia",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: _range == ChartRanges.days
+                              ? colorScheme.onPrimary
+                              : colorScheme.secondary),
+                    ),
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: () => _range = ChartRanges.weeks,
-                  child: const Text("Semana", textAlign: TextAlign.center),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => setState(() => _range = ChartRanges.weeks),
+                    child: Text(
+                      "Semana",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: _range == ChartRanges.weeks
+                              ? colorScheme.onPrimary
+                              : colorScheme.secondary),
+                    ),
+                  ),
                 ),
               ],
             ),
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () => _range = ChartRanges.days,
-                  child: const Text("Dia", textAlign: TextAlign.center),
-                ),
-                ElevatedButton(
-                  onPressed: () => _range = ChartRanges.weeks,
-                  child: const Text("Semana", textAlign: TextAlign.center),
-                ),
-              ],
-            )
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Row(
+              children: Metrics.values
+                  .map(
+                    (metric) => Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: ElevatedButton(
+                          onPressed: () =>
+                              setState(() => _actualMetric = metric),
+                          child: Icon(
+                            switch (metric) {
+                              Metrics.floorHumidity => Icons.water_drop,
+                              Metrics.solarRadiation => Icons.sunny,
+                              Metrics.temperature => Icons.thermostat,
+                              Metrics.wind => Symbols.assistant_navigation,
+                              Metrics.precipitation => Symbols.weather_mix,
+                            },
+                            size: 15,
+                            color: _actualMetric == metric
+                                ? colorScheme.onPrimary
+                                : colorScheme.secondary,
+                            fill: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          )
+        ],
       ),
     );
   }

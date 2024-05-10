@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:morazan/pages/charts/charts_widget.dart';
 import 'package:morazan/util/app_theme.dart';
 import 'package:morazan/pages/satelites/satelites_widget.dart';
 import 'package:morazan/util/constants.dart';
@@ -15,6 +17,7 @@ class _MorazanAppState extends State<MorazanApp> {
   static const _satelites = Satelites.values;
   var _actualSatelite = _satelites[0];
   var _themeMode = ThemeMode.system;
+  var _actualPage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +70,27 @@ class _MorazanAppState extends State<MorazanApp> {
                       .toList(),
                 ),
               ),
-              SatelitesPage(satelite: _actualSatelite),
+              switch (_actualPage) {
+                0 => SatelitesPage(satelite: _actualSatelite),
+                1 => ChartsPage(satelite: _actualSatelite),
+                _ => throw RangeError("The selected page not exists... already")
+              },
             ],
           ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.shifting,
+          currentIndex: _actualPage,
+          onTap: (index) => setState(() => _actualPage = index),
+          selectedItemColor: colorScheme.onPrimary,
+          showUnselectedLabels: false,
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings_input_antenna), label: "Satelite"),
+            BottomNavigationBarItem(
+                icon: Icon(Symbols.bar_chart_4_bars), label: "Graficos"),
+            BottomNavigationBarItem(icon: Icon(Icons.info), label: "Info"),
+          ],
         ),
       ),
     );
