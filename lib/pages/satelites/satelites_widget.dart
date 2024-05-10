@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:morazan/api_requests/api_calls.dart';
 import 'package:morazan/components/humidity_widget.dart';
 import 'package:morazan/components/precipitation_widget.dart';
@@ -10,32 +14,36 @@ import 'package:morazan/util/constants.dart';
 
 class SatelitesPage extends StatefulWidget {
   final Satelites _satelite;
-  final void Function(DateTime) _setLastUpdate;
 
-  const SatelitesPage(
-      {super.key,
-      required Satelites satelite,
-      required void Function(DateTime) setLastUpdate})
-      : _satelite = satelite,
-        _setLastUpdate = setLastUpdate;
+  const SatelitesPage({super.key, required Satelites satelite})
+      : _satelite = satelite;
 
   @override
   State<SatelitesPage> createState() => _SatelitesPageState();
 }
 
 class _SatelitesPageState extends State<SatelitesPage> {
+  static final dateFormat = DateFormat("dd-MM-yyyy HH:mm");
   late Future<SateliteInfo> _futureSateliteInfo;
+  late Timer _timer;
+
+  void updateSateliteInfo() {
+    _futureSateliteInfo = fetchSateliteInfo(widget._satelite);
+    _timer = Timer.periodic(
+        const Duration(minutes: 5), (timer) => updateSateliteInfo());
+  }
 
   @override
   void initState() {
     super.initState();
-    _futureSateliteInfo = fetchSateliteInfo(widget._satelite);
+    updateSateliteInfo();
   }
 
   @override
   void didUpdateWidget(covariant SatelitesPage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _futureSateliteInfo = fetchSateliteInfo(widget._satelite);
+    _timer.cancel();
+    updateSateliteInfo();
   }
 
   @override
@@ -57,20 +65,28 @@ class _SatelitesPageState extends State<SatelitesPage> {
           :rainPrecipitation
         ) = snapshot.data!;
 
-        widget._setLastUpdate(dateTime);
-
         return Expanded(
-          child: GridView.extent(
-            childAspectRatio: 0.61803,
-            maxCrossAxisExtent: 200.0,
-            crossAxisSpacing: 10.0,
-            mainAxisSpacing: 10.0,
+          child: Column(
             children: [
-              FloorHumidity(humidity: floorHumidity),
-              SolarRadiation(radiation: radiation),
-              Temperature(temperature: temperature),
-              Wind(velocity: windVelocity, direction: windDirection),
-              PrecipitationWidget(precipitation: rainPrecipitation),
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Text("Ultima Actualizacion ${dateFormat.format(dateTime)}"),
+              ),
+              Expanded(
+                child: GridView.extent(
+                  childAspectRatio: 0.61803,
+                  maxCrossAxisExtent: 200.0,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 10.0,
+                  children: [
+                    FloorHumidity(humidity: floorHumidity),
+                    SolarRadiation(radiation: radiation),
+                    Temperature(temperature: temperature),
+                    Wind(velocity: windVelocity, direction: windDirection),
+                    PrecipitationWidget(precipitation: rainPrecipitation),
+                  ],
+                ),
+              ),
             ],
           ),
         );

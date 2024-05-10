@@ -27,3 +27,26 @@ Future<SateliteInfo> fetchSateliteInfo(Satelites satelite) async {
     rethrow; // TODO: add a properly catch
   }
 }
+
+Future<List<SateliteInfo>> fetchSateliteHistory(
+    Satelites satelite, ChartRanges range) async {
+  try {
+    final res = await http.get(
+        Uri.parse("${MorazanApi.apiBase}${satelite.name.capitalize()}/$range"));
+    if (res.statusCode == 200) {
+      var dataList = jsonDecode(res.body) as List<Map<String, dynamic>>;
+      final sateliteInfo = dataList.map((data) => SateliteInfo.fromJson(data));
+      return sateliteInfo.toList();
+    } else {
+      if (kDebugMode) {
+        print("error en el fetch por ${res.statusCode}");
+      }
+      throw Exception(""); // TODO: add a properly exception
+    }
+  } catch (e) {
+    if (kDebugMode) {
+      print("error en el fetch por $e");
+    }
+    rethrow; // TODO: add a properly catch
+  }
+}

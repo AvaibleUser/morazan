@@ -1,3 +1,4 @@
+
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -43,9 +44,11 @@ class Wind extends StatelessWidget {
                 fontWeight: FontWeight.w900,
                 fontSize: 10,
               ),
-            ),TweenAnimationBuilder(
-              tween: Tween<double>(begin: 0, end: _direction+0.0),
-              duration: const Duration(milliseconds: 500), // Duración de la animación
+            ),
+            TweenAnimationBuilder(
+              tween: Tween<double>(begin: 0, end: _direction + 0.0),
+              duration:
+                  const Duration(milliseconds: 500), // Duración de la animación
               builder: (context, double angle, child) {
                 return Transform.rotate(
                   angle: angle * math.pi / 180,
