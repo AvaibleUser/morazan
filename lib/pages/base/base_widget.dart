@@ -86,7 +86,7 @@ class _BaseWidgetState extends State<BaseWidget> {
                       .toList(),
                 ),
               ),
-             SatelitesPage(satelite: _actualSatelite, key: UniqueKey()), // Use UniqueKey to force rebuild
+             SatelitesPage(satelite: _actualSatelite), // Use UniqueKey to force rebuild
             ],
           ),
         ),
