@@ -2,7 +2,7 @@
     "testMedium": "Detalles de",
     "temperatura":"temperatura",
     "radiacion":"Radiacion Solar",
-    "velocidad":"Velocidad del viento (SurEste)",
+    "velocidad":"Velocidad del viento",
     "precipitacion":"Precipitacion",
     "humedad":"Humedad del suelo",
     "norte":"norte",

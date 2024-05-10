@@ -2,7 +2,7 @@
     "testMedium": "Details",
     "temperatura":"temperature",
     "radiacion":"solar radiation",
-    "velocidad":"Wind speed (Southeast)",
+    "velocidad":"Wind speed",
     "precipitacion":"Precipitation",
     "humedad":"Humidity of floor",
     "norte":"north",
