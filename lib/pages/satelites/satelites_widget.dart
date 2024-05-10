@@ -33,6 +33,8 @@ class _SatelitesPageState extends State<SatelitesPage> {
     _futureSateliteInfo = fetchSateliteInfo(widget._satelite);
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(

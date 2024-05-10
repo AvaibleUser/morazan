@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:morazan/pages/satelites/satelites_model.dart';
 import 'package:morazan/util/app_theme.dart';
 import 'package:morazan/pages/satelites/satelites_widget.dart';
 import 'package:morazan/util/constants.dart';
 import 'package:string_capitalize/string_capitalize.dart';
+import 'package:morazan/pages/base/about_widget.dart';
 
 class MorazanApp extends StatefulWidget {
   const MorazanApp({super.key});
@@ -35,6 +37,11 @@ class _MorazanAppState extends State<MorazanApp> {
             children: [
               Text("Detalles de ${_actualSatelite.name.capitalize()}"),
               TextButton(
+            
+                onPressed: (){
+                  Navigator.pushNamed(context, "/AboutPage");
+                },child: Icon(themeIcon, size: 20, color: colorScheme.onPrimary),),
+              TextButton(
                 onPressed: () => setState(() {
                   _themeMode = Theme.of(context).brightness == Brightness.light
                       ? ThemeMode.dark
@@ -65,7 +72,9 @@ class _MorazanAppState extends State<MorazanApp> {
                       .toList(),
                 ),
               ),
+               Text("Ultima Actualizacinon ${_actualSatelite.name.capitalize()}"),
               SatelitesPage(satelite: _actualSatelite),
+             
             ],
           ),
         ),

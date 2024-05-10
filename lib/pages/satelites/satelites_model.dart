@@ -59,4 +59,8 @@ class SateliteInfo {
       _ => throw const FormatException()
     };
   }
+
+    DateTime getDateTime() {
+    return dateTime;
+  }
 }
