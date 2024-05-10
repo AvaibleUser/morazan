@@ -15,11 +15,23 @@ class Precipitation extends StatelessWidget {
       data: _precipitation,
       unit: "cm³",
       icon: Icon(
-        Symbols.weather_mix,
+       getSimbolWeather(_precipitation),
         size: 60,
         color: Colors.indigo.shade400,
         fill: 1,
       ),
     );
   }
+
+IconData getSimbolWeather(num precipitation){
+
+if (precipitation>=1000) {
+  return Symbols.cloudy_snowing;
+}else{
+  return Symbols.cloud;
+}
+  
+}
+
+
 }
