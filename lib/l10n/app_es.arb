@@ -1,7 +1,16 @@
 {
     "testMedium": "Details",
     "temperatura":"temperature",
-    "radiacion":"Temperature",
+    "radiacion":"solar radiation",
     "velocidad":"Wind speed (Southeast)",
-    "precipitacion":"Precipitation"
+    "precipitacion":"Precipitation",
+    "humedad":"Humidity of floor",
+    "norte":"north",
+    "noreste":"northeast",
+    "este": "East",
+    "sureste":"southeast",
+    "sur":"south",
+    "suroeste": "southwest",
+    "oeste":"west",
+    "noroeste":"northwest"
 }

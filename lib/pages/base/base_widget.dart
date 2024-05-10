@@ -32,7 +32,7 @@ class _BaseWidgetState extends State<BaseWidget> {
         : Icons.light_mode;
 
     return MaterialApp(
-      locale: const Locale("en"), // Establece el idioma predeterminado a inglés
+      locale: context.watch<LocaleBloc>().state.selectedLanguage.localeValue, // idioma predeterminado a inglés
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       //Fin de local language
@@ -56,7 +56,7 @@ class _BaseWidgetState extends State<BaseWidget> {
               },
             ),
               TextButton(
-                onPressed: () => setState(() {
+                onPressed: () => setState(() {                                    
                   _themeMode = Theme.of(context).brightness == Brightness.light
                       ? ThemeMode.dark
                       : ThemeMode.light;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:morazan/components/satelite_info_piece.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FloorHumidity extends StatelessWidget {
   final List<double> _humidity;
@@ -9,8 +10,9 @@ class FloorHumidity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final l10n = AppLocalizations.of(context)!; 
     return SateliteInfoPiece(
-      title: 'Humedad del suelo',
+      title: l10n.humedad,
       data: _humidity,
       unit: "%",
       icon: Icon(Icons.water_drop, size: 60, color: Colors.blueAccent.shade700),

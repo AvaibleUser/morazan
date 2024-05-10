@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:morazan/components/satelite_info_piece.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Wind extends StatelessWidget {
   final double _velocity;
@@ -13,19 +14,20 @@ class Wind extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final l10n = AppLocalizations.of(context)!; 
     String direction = switch (_direction) {
-      <= 22.5 || > 337.5 => "norte",
-      <= 67.5 => "noreste",
-      <= 112.5 => "este",
-      <= 157.5 => "sureste",
-      <= 202.5 => "sur",
-      <= 247.5 => "suroeste",
-      <= 292.5 => "oeste",
-      _ => "noroeste",
+      <= 22.5 || > 337.5 => l10n.norte,
+      <= 67.5 => l10n.noreste,
+      <= 112.5 => l10n.este,
+      <= 157.5 => l10n.sureste,
+      <= 202.5 => l10n.sur,
+      <= 247.5 => l10n.suroeste,
+      <= 292.5 => l10n.oeste,
+      _ => l10n.noroeste,
     };
 
     return SateliteInfoPiece(
-      title: 'Velocidad del viento ($direction)',
+      title:  '${l10n.velocidad}($direction)',
       data: _velocity,
       unit: "Km/s",
       icon: SizedBox(

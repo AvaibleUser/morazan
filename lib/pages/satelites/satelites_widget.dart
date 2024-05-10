@@ -11,9 +11,8 @@ import 'package:morazan/util/constants.dart';
 class SatelitesPage extends StatefulWidget {
   final Satelites _satelite;
 
-  const SatelitesPage({Key? key, required Satelites satelite})
-      : _satelite = satelite,
-        super(key: key); 
+  const SatelitesPage({super.key, required Satelites satelite})
+      : _satelite = satelite; 
 
   @override
   State<SatelitesPage> createState() => _SatelitesPageState();
