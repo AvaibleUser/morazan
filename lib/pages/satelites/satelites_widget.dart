@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:morazan/api_requests/api_calls.dart';
 import 'package:morazan/components/humidity_widget.dart';
@@ -20,17 +22,25 @@ class SatelitesPage extends StatefulWidget {
 
 class _SatelitesPageState extends State<SatelitesPage> {
   late Future<SateliteInfo> _futureSateliteInfo;
+  late Timer _timer;
+
+  void updateSateliteInfo() {
+    _futureSateliteInfo = fetchSateliteInfo(widget._satelite);
+    _timer = Timer.periodic(
+        const Duration(minutes: 5), (timer) => updateSateliteInfo());
+  }
 
   @override
   void initState() {
     super.initState();
-    _futureSateliteInfo = fetchSateliteInfo(widget._satelite);
+    updateSateliteInfo();
   }
 
   @override
   void didUpdateWidget(covariant SatelitesPage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _futureSateliteInfo = fetchSateliteInfo(widget._satelite);
+    _timer.cancel();
+    updateSateliteInfo();
   }
 
   @override

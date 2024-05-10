@@ -5,7 +5,7 @@ import 'package:morazan/util/constants.dart';
 import 'package:string_capitalize/string_capitalize.dart';
 
 class MorazanApp extends StatefulWidget {
-  const MorazanApp({Key? key}) : super(key: key);
+  const MorazanApp({super.key});
 
   @override
   State<MorazanApp> createState() => _MorazanAppState();
@@ -19,9 +19,8 @@ class _MorazanAppState extends State<MorazanApp> {
   @override
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
-    var themeIcon = _themeMode == ThemeMode.light
-        ? Icons.dark_mode
-        : Icons.light_mode;
+    var themeIcon =
+        _themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode;
 
     return MaterialApp(
       title: 'Morazan',
@@ -36,11 +35,11 @@ class _MorazanAppState extends State<MorazanApp> {
               Text("Detalles de ${_actualSatelite.name.capitalize()}"),
               TextButton(
                 onPressed: () {
-                  setState(() {
-                    _themeMode = _themeMode == ThemeMode.light
+                  setState(
+                    () => _themeMode = _themeMode == ThemeMode.light
                         ? ThemeMode.dark
-                        : ThemeMode.light;
-                  });
+                        : ThemeMode.light,
+                  );
                 },
                 child: Icon(themeIcon, size: 20, color: colorScheme.onPrimary),
               ),
@@ -56,16 +55,15 @@ class _MorazanAppState extends State<MorazanApp> {
                   value: _actualSatelite,
                   icon: Icon(Icons.expand_more,
                       size: 24, color: colorScheme.outline),
-                  onChanged: (satelite) {
-                    setState(() {
-                      _actualSatelite = satelite!;
-                    });
-                  },
+                  onChanged: (satelite) =>
+                      setState(() => _actualSatelite = satelite!),
                   items: _satelites
-                      .map((satelite) => DropdownMenuItem(
-                            value: satelite,
-                            child: Text(satelite.name.capitalize()),
-                          ))
+                      .map(
+                        (satelite) => DropdownMenuItem(
+                          value: satelite,
+                          child: Text(satelite.name.capitalize()),
+                        ),
+                      )
                       .toList(),
                 ),
               ),
