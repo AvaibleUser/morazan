@@ -1,0 +1,7 @@
+{
+    "testMedium": "Details",
+    "temperatura":"temperature",
+    "radiacion":"Temperature",
+    "velocidad":"Wind speed (Southeast)",
+    "precipitacion":"Precipitation"
+}

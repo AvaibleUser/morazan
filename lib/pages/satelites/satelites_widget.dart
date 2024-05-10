@@ -11,8 +11,9 @@ import 'package:morazan/util/constants.dart';
 class SatelitesPage extends StatefulWidget {
   final Satelites _satelite;
 
-  const SatelitesPage({super.key, required Satelites satelite})
-      : _satelite = satelite;
+  const SatelitesPage({Key? key, required Satelites satelite})
+      : _satelite = satelite,
+        super(key: key); 
 
   @override
   State<SatelitesPage> createState() => _SatelitesPageState();
@@ -62,7 +63,7 @@ class _SatelitesPageState extends State<SatelitesPage> {
               SolarRadiation(radiation: radiation),
               Temperature(temperature: temperature),
               Wind(velocity: windVelocity, direction: windDirection),
-              Precipitation(precipitation: rainPrecipitation),
+              PrecipitationWidget(precipitation: rainPrecipitation),
             ],
           ),
         );
