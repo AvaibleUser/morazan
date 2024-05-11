@@ -53,7 +53,10 @@ class _BaseWidgetState extends State<BaseWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "${l10n.testMedium} ${_actualSatelite.name.capitalize()}",
+                  switch (_actualPage) {
+                    2 => l10n.acerca,
+                    _ => l10n.detalles,
+                  },
                   style: const TextStyle(fontSize: 20),
                 ),
                 BlocBuilder<LocaleBloc, LocaleState>(
@@ -112,18 +115,23 @@ class _BaseWidgetState extends State<BaseWidget> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.shifting,
+          type: BottomNavigationBarType.fixed,
           currentIndex: _actualPage,
           onTap: (index) => setState(() => _actualPage = index),
-          selectedItemColor: colorScheme.onPrimary,
-          unselectedItemColor: colorScheme.tertiary,
           showUnselectedLabels: false,
           items: const [
             BottomNavigationBarItem(
-                icon: Icon(Icons.settings_input_antenna), label: "Satelite"),
+              icon: Icon(Icons.settings_input_antenna),
+              label: "Satelite",
+            ),
             BottomNavigationBarItem(
-                icon: Icon(Symbols.bar_chart_4_bars), label: "Graficos"),
-            BottomNavigationBarItem(icon: Icon(Icons.info), label: "Info"),
+              icon: Icon(Symbols.bar_chart_4_bars),
+              label: "Graficos",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.info),
+              label: "Info",
+            ),
           ],
         ),
       ),
