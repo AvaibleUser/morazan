@@ -47,6 +47,12 @@ class _SatelitesPageState extends State<SatelitesPage> {
   }
 
   @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _futureSateliteInfo,
@@ -70,7 +76,8 @@ class _SatelitesPageState extends State<SatelitesPage> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(2.0),
-                child: Text("Ultima Actualizacion ${dateFormat.format(dateTime)}"),
+                child:
+                    Text("Ultima Actualizacion ${dateFormat.format(dateTime)}"),
               ),
               Expanded(
                 child: GridView.extent(
